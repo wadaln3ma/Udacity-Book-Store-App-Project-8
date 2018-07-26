@@ -11,9 +11,9 @@ import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +24,8 @@ import android.widget.Toast;
 import com.android.udacitybookstoreappproject8.storedata.StoreContract;
 
 public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    private final int REQUEST_CALL_CODE = 1;
     private static final int EXISTING_STORE_LOADER = 0;
-    private Uri currentUri;
-    private int productQuantity;
-    private String supplierPhone;
+    private final int REQUEST_CALL_CODE = 1;
     TextView productNameTextView;
     TextView productPriceTextView;
     TextView productQuantityTextView;
@@ -37,6 +34,9 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     Button sellProductButton;
     Button orderProductButton;
     Button callSupplierPhoneButton;
+    private Uri currentUri;
+    private int productQuantity;
+    private String supplierPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +59,11 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         sellProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (productQuantity > 0){
+                if (productQuantity > 0) {
                     productQuantity--;
                     ContentValues values = new ContentValues();
                     values.put(StoreContract.StoreEntry.COLUMN_PRODUCT_QUANTITY, productQuantity);
-                    getContentResolver().update(currentUri,values,null, null);
+                    getContentResolver().update(currentUri, values, null, null);
                     return;
                 }
                 Toast.makeText(DetailsActivity.this, R.string.quantity_less_than_zero_msg, Toast.LENGTH_SHORT).show();
@@ -87,28 +87,28 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 callIntent.setData(Uri.parse("tel:" + supplierPhone));
                 if (callIntent.resolveActivity(getPackageManager()) != null) {
                     if (ActivityCompat.checkSelfPermission(DetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(DetailsActivity.this, new String[] {Manifest.permission.CALL_PHONE}, REQUEST_CALL_CODE);
-                    }else {
+                        ActivityCompat.requestPermissions(DetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_CODE);
+                    } else {
                         startActivity(callIntent);
                     }
                 }
             }
         });
 
-        if (currentUri != null){
+        if (currentUri != null) {
             getLoaderManager().initLoader(EXISTING_STORE_LOADER, null, this);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_CALL_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + supplierPhone));
                     startActivity(callIntent);
-                }else {
+                } else {
                     return;
                 }
         }
@@ -123,7 +123,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int selectedItemId = item.getItemId();
-        switch (selectedItemId){
+        switch (selectedItemId) {
             case R.id.delete_inventory:
                 showDeleteAlertDialogue();
                 break;
@@ -161,7 +161,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         int productSupplierNameColumnIndex = cursor.getColumnIndex(StoreContract.StoreEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
         int productSupplierPhoneColumnIndex = cursor.getColumnIndex(StoreContract.StoreEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NUMBER);
 
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             String productName = cursor.getString(productNameColumnIndex);
             productQuantity = cursor.getInt(productQuantityColumnIndex);
             int productPrice = cursor.getInt(productPriceColumnIndex);
@@ -178,21 +178,21 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-            productNameTextView.setText("");
-            productPriceTextView.setText("");
-            productQuantityTextView.setText("");
-            productSupplierNameTextView.setText("");
-            productSupplierPhoneTextView.setText("");
+        productNameTextView.setText("");
+        productPriceTextView.setText("");
+        productQuantityTextView.setText("");
+        productSupplierNameTextView.setText("");
+        productSupplierPhoneTextView.setText("");
     }
 
-    private void showDeleteAlertDialogue(){
+    private void showDeleteAlertDialogue() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.alert_dialog_title_delete);
         builder.setMessage(R.string.alert_dialog_delete_msg);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                getContentResolver().delete(currentUri,null,null);
+                getContentResolver().delete(currentUri, null, null);
                 finish();
             }
         });

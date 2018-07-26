@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                intent.setData(ContentUris.withAppendedId(StoreContract.StoreEntry.CONTENT_URI,id));
+                intent.setData(ContentUris.withAppendedId(StoreContract.StoreEntry.CONTENT_URI, id));
                 startActivity(intent);
             }
         });

@@ -37,7 +37,7 @@ public class StoreCursorAdapter extends CursorAdapter {
         int productQuantityColumnIndex = cursor.getColumnIndex(StoreContract.StoreEntry.COLUMN_PRODUCT_QUANTITY);
         int productPriceColumnIndex = cursor.getColumnIndex(StoreContract.StoreEntry.COLUMN_PRODUCT_PRICE);
 
-        final long id = (long)cursor.getInt(idColumnIndex);
+        final long id = (long) cursor.getInt(idColumnIndex);
         final String productName = cursor.getString(productNameColumnIndex);
         final int productQuantity = cursor.getInt(productQuantityColumnIndex);
         int productPrice = cursor.getInt(productPriceColumnIndex);
@@ -48,14 +48,14 @@ public class StoreCursorAdapter extends CursorAdapter {
         productSellingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (productQuantity == 0){
+                if (productQuantity == 0) {
                     Toast.makeText(context, "There's no mre " + productName + " in the inventory", Toast.LENGTH_SHORT).show();
                     return;
-                }else {
+                } else {
                     int newQuantity = productQuantity - 1;
                     ContentValues values = new ContentValues();
                     values.put(StoreContract.StoreEntry.COLUMN_PRODUCT_QUANTITY, newQuantity);
-                    context.getContentResolver().update(ContentUris.withAppendedId(StoreContract.StoreEntry.CONTENT_URI, id) , values,null,null);
+                    context.getContentResolver().update(ContentUris.withAppendedId(StoreContract.StoreEntry.CONTENT_URI, id), values, null, null);
                 }
             }
         });

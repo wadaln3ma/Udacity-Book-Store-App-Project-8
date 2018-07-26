@@ -29,5 +29,12 @@
     <string name="supplier_phone_tv">Supplier Phone</string>
     <string name="dolar_sign">$</string>
     <string name="quantity_less_than_zero_msg">Quantity can\'t be less than zero!</string>
+    <string name="failed_inventory_insertion">Insert Inventory failed</string>
+    <string name="seccessful_inventory_isnsertion">Insert Inventory is successful</string>
+    <string name="update_inventory_failed">Update Inventory failed</string>
+    <string name="update_inventory_seccussful">Update Inventory is successful</string>
+    <string name="save_change_alert_msg">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
 
 </resources>

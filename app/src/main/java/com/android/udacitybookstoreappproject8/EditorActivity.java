@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,19 +19,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import static com.android.udacitybookstoreappproject8.storedata.StoreContract.*;
+
+import static com.android.udacitybookstoreappproject8.storedata.StoreContract.StoreEntry;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int EXISTING_STORE_LOADER = 0;
     Uri currentUri;
-    private boolean inventoryHasChanged = false;
-
     EditText productNameTeEditText;
     EditText productQuantityEditText;
     EditText productPriceEditText;
     EditText productSupplierNameEditText;
     EditText productSupplierPhoneEditText;
-
+    private boolean inventoryHasChanged = false;
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -59,10 +58,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         Intent intent = getIntent();
         currentUri = intent.getData();
-        if (currentUri != null){
+        if (currentUri != null) {
             setTitle("Edit Inventory");
             getLoaderManager().initLoader(EXISTING_STORE_LOADER, null, this);
-        }else{
+        } else {
             setTitle("Add Inventory");
         }
 
@@ -77,13 +76,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int selectedItemId = item.getItemId();
-        switch (selectedItemId){
+        switch (selectedItemId) {
             case R.id.save_inventory:
                 saveInventory();
-                finish();
                 return true;
             case android.R.id.home:
-                if (!inventoryHasChanged){
+                if (!inventoryHasChanged) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
                     return true;
                 }
@@ -103,7 +101,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onBackPressed() {
 
-        if (inventoryHasChanged){
+        if (inventoryHasChanged) {
             DialogInterface.OnClickListener discardButtonClickListener =
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -117,49 +115,51 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         super.onBackPressed();
     }
 
-    private void saveInventory(){
+    private void saveInventory() {
         String productName = productNameTeEditText.getText().toString().trim();
         String stringProductQuantity = productQuantityEditText.getText().toString().trim();
         String stringProductPrice = productPriceEditText.getText().toString().trim();
         String supplierName = productSupplierNameEditText.getText().toString().trim();
         String supplierPhone = productSupplierPhoneEditText.getText().toString().trim();
 
-        if (currentUri == null && TextUtils.isEmpty(productName) && TextUtils.isEmpty(stringProductQuantity)
-                && TextUtils.isEmpty(stringProductPrice) &&
-                TextUtils.isEmpty(supplierName) && TextUtils.isEmpty(supplierPhone)){
+        if (currentUri == null && TextUtils.isEmpty(productName) || TextUtils.isEmpty(stringProductQuantity)
+                || TextUtils.isEmpty(stringProductPrice) ||
+                TextUtils.isEmpty(supplierName) || TextUtils.isEmpty(supplierPhone)) {
             Toast.makeText(EditorActivity.this, "You have to fill all the fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
         ContentValues values = new ContentValues();
-        values.put(StoreEntry.COLUMN_PRODUCT_NAME,productName);
+        values.put(StoreEntry.COLUMN_PRODUCT_NAME, productName);
         values.put(StoreEntry.COLUMN_PRODUCT_PRICE, stringProductPrice);
         values.put(StoreEntry.COLUMN_PRODUCT_SUPPLIER_NAME, supplierName);
         values.put(StoreEntry.COLUMN_PRODUCT_SUPPLIER_PHONE_NUMBER, supplierPhone);
         int productQuantity = 0;
-         if (!TextUtils.isEmpty(stringProductQuantity)){
-             productQuantity = Integer.valueOf(stringProductQuantity);
-         }
+        if (!TextUtils.isEmpty(stringProductQuantity)) {
+            productQuantity = Integer.valueOf(stringProductQuantity);
+        }
         values.put(StoreEntry.COLUMN_PRODUCT_QUANTITY, productQuantity);
-         int productPrice = 0;
-         if (!TextUtils.isEmpty(stringProductPrice)){
-             productPrice = Integer.valueOf(stringProductPrice);
-         }
-         values.put(StoreEntry.COLUMN_PRODUCT_PRICE,productPrice);
+        int productPrice = 0;
+        if (!TextUtils.isEmpty(stringProductPrice)) {
+            productPrice = Integer.valueOf(stringProductPrice);
+        }
+        values.put(StoreEntry.COLUMN_PRODUCT_PRICE, productPrice);
 
-        if (currentUri == null){
+        if (currentUri == null) {
             Uri newUri = getContentResolver().insert(StoreEntry.CONTENT_URI, values);
-            if (newUri == null){
-                Toast.makeText(EditorActivity.this, "Insert Inventory failed", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(EditorActivity.this, "Insert Inventory is successful", Toast.LENGTH_SHORT).show();
+            if (newUri == null) {
+                Toast.makeText(EditorActivity.this, R.string.failed_inventory_insertion, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(EditorActivity.this, R.string.seccessful_inventory_isnsertion, Toast.LENGTH_SHORT).show();
+                finish();
             }
-        }else {
+        } else {
             int effectedRows = getContentResolver().update(currentUri, values, null, null);
-            if (effectedRows == 0){
-                Toast.makeText(EditorActivity.this, "Update Inventory failed", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(EditorActivity.this, "Update Inventory is successful", Toast.LENGTH_SHORT).show();
+            if (effectedRows == 0) {
+                Toast.makeText(EditorActivity.this, R.string.update_inventory_failed, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(EditorActivity.this, R.string.update_inventory_seccussful, Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }
@@ -202,14 +202,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener){
+    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Discard your changes and quit editing?");
-        builder.setPositiveButton("Discarrd", discardButtonClickListener);
-        builder.setNegativeButton("Keep Editing", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.save_change_alert_msg);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (dialogInterface != null){
+                if (dialogInterface != null) {
                     dialogInterface.dismiss();
                 }
             }
