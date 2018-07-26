@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditorActivity">
+
+    <LinearLayout
+        style="@style/editor_activity_linear_layout">
+
+        <TextView
+            style="@style/editor_activity_label_text_view"
+            android:text="@string/product_name_tv"/>
+
+        <EditText
+            android:id="@+id/product_name_et"
+            style="@style/editor_activity_edit_text"
+            android:hint="@string/please_enter_a_name"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/editor_activity_linear_layout">
+
+        <TextView
+            style="@style/editor_activity_label_text_view"
+            android:text="@string/product_price_tv"/>
+
+        <EditText
+            android:id="@+id/product_price_et"
+            style="@style/editor_activity_edit_text"
+            android:inputType="numberDecimal"
+            android:hint="@string/please_enter_price"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/editor_activity_linear_layout">
+
+        <TextView
+            style="@style/editor_activity_label_text_view"
+            android:inputType="number"
+            android:text="@string/product_quantity_tv"/>
+
+        <EditText
+            android:id="@+id/product_quantity_et"
+            style="@style/editor_activity_edit_text"
+            android:hint="@string/please_enter_quantity"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/editor_activity_linear_layout">
+
+        <TextView
+            style="@style/editor_activity_label_text_view"
+            android:text="@string/supplier_name_tv"/>
+
+        <EditText
+            android:id="@+id/product_supplier_name_et"
+            style="@style/editor_activity_edit_text"
+            android:hint="@string/please_enter_a_name"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/editor_activity_linear_layout">
+
+        <TextView
+            style="@style/editor_activity_label_text_view"
+            android:text="@string/supplier_phone_tv"/>
+
+        <EditText
+            android:id="@+id/product_supplier_phone_et"
+            style="@style/editor_activity_edit_text"
+            android:hint="@string/please_enter_a_phone_no"/>
+
+    </LinearLayout>
+
+</LinearLayout>

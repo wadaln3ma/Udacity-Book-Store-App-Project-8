@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">Udacity Book Store App Project 8</string>
+    <string name="empty_state_msg">No Items On the List</string>
+    <string name="empty_state_msg_click">Click on the Button Below to add Products</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sell">sell</string>
+    <string name="order">Order</string>
+    <string name="save">Save</string>
+    <string name="product_name">Product Name :</string>
+    <string name="product_price">Product Price :</string>
+    <string name="supplier_name">Supplier Name :</string>
+    <string name="supplier_phone">Supplier Phone :</string>
+    <string name="alert_dialog_title_delete">Delete Inventory</string>
+    <string name="alert_dialog_delete_msg">Are You Sure ?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="please_enter_a_phone_no">Please Enter a Phone No.</string>
+    <string name="product_name_tv">Product Name</string>
+    <string name="please_enter_a_name">Please Enter a Name!</string>
+    <string name="product_price_tv">Product Price</string>
+    <string name="please_enter_price">Please Enter Price!</string>
+    <string name="product_quantity_tv">Product Quantity</string>
+    <string name="please_enter_quantity">Please Enter Quantity!</string>
+    <string name="supplier_name_tv">Supplier Name</string>
+    <string name="supplier_phone_tv">Supplier Phone</string>
+    <string name="dolar_sign">$</string>
+    <string name="quantity_less_than_zero_msg">Quantity can\'t be less than zero!</string>
+
 </resources>
